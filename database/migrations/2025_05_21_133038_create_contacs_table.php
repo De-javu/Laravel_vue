@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('contacs', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 255);
+            $table->string('phone', 50);
+            $table->string('vatar')->nullable();
+            $table->enum('privacity', ['public', 'private'])->default('private');
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

@@ -14,6 +14,18 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
+
+    {
+        title: 'Contacts',
+        href: '/dashboard/contacts',
+        icon: Folder,
+    },
+
+    {
+        title: 'Settings',
+        href: '/settings',
+        icon: Wifi,
+    },
 ];
 
 
