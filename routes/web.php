@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactController;
+use App\Models\Contac;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,13 +13,12 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('dashboard')->group(function () {
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     Route::get('contacts',[ContactController::class, 'index'])->name('contact.index');
     Route::get('contacts/create',[ContactController::class, 'create'])->name('contact.create');
-    Route::post('contacts', [ContactController::class, 'store'])->name('contact.store');
-        
-    });
+    Route::post('contacts', [ContactController::class, 'store'])->name('contact.store');  
+    Route::get('contacts/{id}/edit', [ContactController::class, 'edit'])->name('contact.edit');
 
-
+});
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';

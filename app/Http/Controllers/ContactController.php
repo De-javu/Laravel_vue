@@ -14,7 +14,9 @@ class ContactController extends Controller
      */
     public function index()
     {
-        return Inertia::render('contacts/index');
+        $contacts= Contac::where('user_id', Auth::user()->id)->get();
+        
+        return Inertia::render('contacts/index', compact('contacts'));
     }
 
     /**
@@ -51,9 +53,15 @@ class ContactController extends Controller
         $data['vatar'] = $routeNama;
     }
 
+   //* Asigna el ID del usuario autenticado al contacto
     $data['user_id'] = Auth::id();
-    Contac::create($data);
-    dd('usuaria creada');
+
+    $contact = new Contac($data);
+    $contact->save();
+
+    // Redirige a la vista de contactos
+    return redirect()->route('contacts.index')->with('success', 'Contacto creado correctamente');
+    
 
 }
 
@@ -68,11 +76,15 @@ class ContactController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
-
+    public function edit(Contac $id)
+    
+ 
+{
+    //dd($id);
+    //die();
+    //$contact = Contac::findOrFail($id);
+    return Inertia::render('contacts/edit');
+}
     /**
      * Update the specified resource in storage.
      */
