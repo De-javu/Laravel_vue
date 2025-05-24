@@ -14,6 +14,7 @@ import { ref } from 'vue';
 const breadcrumbs = [
     { title: 'Contactos', href: '/dashboard/contacts' },
     { title: 'Crear', href: '/dashboard/contacts/create' },
+    
 ];
 // Se define el formulario con los campos necesarios para la creacion de un contacto
 const form = useForm<{

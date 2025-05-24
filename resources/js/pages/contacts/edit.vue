@@ -14,6 +14,7 @@ import { ref } from 'vue';
 const breadcrumbs = [
     { title: 'Contactos', href: '/dashboard/contacts' },
     { title: 'Crear', href: '/dashboard/contacts/create' },
+    { title: 'Salir', href: '/dashboard/contacts/create' },
 ];
 // Se define el formulario con los campos necesarios para la creacion de un contacto
 const form = useForm<{
@@ -52,6 +53,8 @@ const submit = () => {
     forceFormData: true,
 });
 };
+console.log(route('contact.edit', 1)); // ¿Qué imprime en consola?
+
 </script>
 
 <!-- Se define el estilo de la vista -->
@@ -59,7 +62,7 @@ const submit = () => {
     <Head title="Editar Contacto" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="p-4 max-w-lg mx-auto">
-            <h1 class="text-xl font-bold mb-4">Crear Contacto</h1>
+            <h1 class="text-xl font-bold mb-4">Editar Contacto</h1>
             <form @submit.prevent="submit" class="space-y-4">
                 <div>
                     <Label for="name" class="m-1">Nombre</Label>

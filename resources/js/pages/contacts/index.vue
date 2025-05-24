@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/vue3';
+import { Head, usePage, Link } from '@inertiajs/vue3';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { route } from 'ziggy-js';
 
@@ -20,15 +20,19 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Contactos', href: '/dashboard/contacts' },
     { title: 'Crear Contacto', href: '/dashboard/contacts/create' },
     { title: 'Salir', href: '/dashboard/contacts/salir' },
+
 ];
+
+console.log(route('contact.edit', 1)); // ¿Qué URL imprime?
 </script>
 
 <template>
     <Head title="Contactos" />
     <AppLayout :breadcrumbs="breadcrumbs">
+         
         <div class="flex flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                <PlaceholderPattern />
+            
                 <div class="overflow-x-auto flex justify-center m-3">
                     <table class="w-[90vw] max-w-6xl min-w-[800px] divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-50 dark:bg-gray-800">
@@ -49,12 +53,18 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     <img :src="`/storage/${contact.vatar}`" alt="Avatar" class="w-10 h-10 rounded-full" v-if="contact.vatar">
                                 </td>
                                 <td>
+                                    <div class="flex gap-2">                                
                                    <Link
-  :href="route('contact.edit', contact.id )"
-  class="bg-blue-500 text-white px-4 py-2 rounded inline-block"
->
-  Editar
-</Link>
+                                        :href="route('contact.edit', contact.id)"
+                                        class="inline-block px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded shadow transition whitespace-nowrap">
+                                        Editar
+                                    </Link>
+                                    <Link                                                                  
+                                        :href="route('contact.edit', contact.id)"
+                                        class="inline-block px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded shadow transition">
+                                        Eliminar
+                                    </Link>
+                                      </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -62,5 +72,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </div>
             </div>
         </div>
+       
     </AppLayout>
+
+  
 </template>

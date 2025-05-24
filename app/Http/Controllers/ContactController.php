@@ -60,7 +60,7 @@ class ContactController extends Controller
     $contact->save();
 
     // Redirige a la vista de contactos
-    return redirect()->route('contacts.index')->with('success', 'Contacto creado correctamente');
+    return redirect()->route('contact.index')->with('success', 'Contacto creado correctamente');
     
 
 }
@@ -80,10 +80,10 @@ class ContactController extends Controller
     
  
 {
-    //dd($id);
-    //die();
+    dd($id);
+    die();
     //$contact = Contac::findOrFail($id);
-    return Inertia::render('contacts/edit');
+   // return Inertia::render('contacts/edit');
 }
     /**
      * Update the specified resource in storage.
