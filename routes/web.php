@@ -13,11 +13,13 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware(['auth'])->prefix('/dashboard')->group(function () {
+Route::middleware(['web', 'auth'])->prefix('/dashboard')->group(function () {
     Route::get('contacts',[ContactController::class, 'index'])->name('contact.index');
     Route::get('contacts/create',[ContactController::class, 'create'])->name('contact.create');
     Route::post('contacts', [ContactController::class, 'store'])->name('contact.store');  
     Route::get('contacts/{id}/edit', [ContactController::class, 'edit'])->name('contact.edit');
+    Route::delete('contacts/{id}', [ContactController::class, 'destroy'])->name('contact.destroy');
+    Route::post('contacts/{id}',[ContactController::class, 'update'])->name('contact.update');
 
 });
 require __DIR__ . '/settings.php';

@@ -23,10 +23,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 ];
 
-console.log(route('contact.edit', 1)); // ¿Qué URL imprime?
+
+
 </script>
 
 <template>
+    
     <Head title="Contactos" />
     <AppLayout :breadcrumbs="breadcrumbs">
          
@@ -59,9 +61,12 @@ console.log(route('contact.edit', 1)); // ¿Qué URL imprime?
                                         class="inline-block px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded shadow transition whitespace-nowrap">
                                         Editar
                                     </Link>
-                                    <Link                                                                  
-                                        :href="route('contact.edit', contact.id)"
-                                        class="inline-block px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded shadow transition">
+                                   <Link
+                                        as="button"
+                                        method="delete"
+                                        :href="route('contact.destroy', contact.id)"
+                                        class="inline-block px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded shadow transition"
+                                        >
                                         Eliminar
                                     </Link>
                                       </div>

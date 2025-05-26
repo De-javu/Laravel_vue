@@ -9,25 +9,40 @@ import { AvatarImage } from 'reka-ui';
 import { handleError } from 'vue';
 import Avatar from '@/components/ui/avatar/Avatar.vue';
 import { ref } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
-// Se define el tipo de BreadcrumbItem para el envio de los datos recopilado en el formulario
-const breadcrumbs = [
-    { title: 'Contactos', href: '/dashboard/contacts' },
-    { title: 'Crear', href: '/dashboard/contacts/create' },
-    { title: 'Salir', href: '/dashboard/contacts/create' },
-];
-// Se define el formulario con los campos necesarios para la creacion de un contacto
+// se encarga de importar los componentes necesarios para la vista
+type Contact = {
+    id: number;
+    name: string;
+    phone: string;
+    vatar?: File | null;
+    privacity: string;
+};
+
+// importa los datos para editar por medio de la llave que se envia desde el controlador
+const page = usePage();
+const contact = ref(page.props.contact as Contact);
+
+
 const form = useForm<{
     name: string;
     phone: string;
     vatar: File | null;
     privacity: string;
 }>({
-    name: '',
-    phone: '',
+    name: contact.value.name || '',
+    phone: contact.value.phone || '',
     vatar: null,
-    privacity: 'private',
+    privacity: contact.value.privacity || 'private',
 });
+
+ // Se define el tipo de BreadcrumbItem para el envio de los datos recopilado en el formulario
+const breadcrumbs = [
+    { title: 'Contactos', href: '/dashboard/contacts' },
+    { title: 'Crear', href: '/dashboard/contacts/create' },
+    { title: 'Salir', href: '/dashboard/contacts/create' },
+];
 
 // Variable para previsualizar el avatar
 const avatarPreview = ref<string | null>(null);
@@ -45,7 +60,7 @@ function handleAvatarChange(event: Event) {
 
 // Se define la funcion submit para enviar el formulario
 const submit = () => {
-    form.post('/dashboard/contacts', {
+    form.post(route('contact.update', contact.value.id), {
         onFinish: () => {
             form.reset('vatar');
             avatarPreview.value = null;
@@ -53,13 +68,13 @@ const submit = () => {
     forceFormData: true,
 });
 };
-console.log(route('contact.edit', 1)); // ¿Qué imprime en consola?
+
 
 </script>
 
 <!-- Se define el estilo de la vista -->
 <template>
-    <Head title="Editar Contacto" />
+    <Head title="Actualizar Contacto" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="p-4 max-w-lg mx-auto">
             <h1 class="text-xl font-bold mb-4">Editar Contacto</h1>
@@ -73,6 +88,10 @@ console.log(route('contact.edit', 1)); // ¿Qué imprime en consola?
                     <Label for="phone" class="m-1">Teléfono</Label>
                     <Input id="phone" v-model="form.phone" type="text"  class="" required autocomplete="off" placeholder="+571234567890"/>
                     <InputError :message="form.errors.phone" />
+                </div>
+                <img :src="`/storage/${contact.vatar}`" alt="Avatar" class="w-16 h-16 rounded-full mb-4" />
+                <div>
+
                 </div>
 
                 <!-- Campo para subir el avatar -->
@@ -114,7 +133,7 @@ console.log(route('contact.edit', 1)); // ¿Qué imprime en consola?
 
                 <!-- boton de envio -->
                  <div class="flex justify-center">
-                    <Button type="submit" class="px-4 py-2 bg-blue-700 text-white rounded-md " >Crear Contacto</Button>
+                    <Button type="submit" class="px-4 py-2 bg-yellow-700 text-white rounded-md " >Actualizar</Button>
 
                  </div>
                 

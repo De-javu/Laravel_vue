@@ -9,6 +9,7 @@ import { AvatarImage } from 'reka-ui';
 import { handleError } from 'vue';
 import Avatar from '@/components/ui/avatar/Avatar.vue';
 import { ref } from 'vue';
+import {route} from 'ziggy-js';
 
 // Se define el tipo de BreadcrumbItem para el envio de los datos recopilado en el formulario
 const breadcrumbs = [
@@ -45,13 +46,13 @@ function handleAvatarChange(event: Event) {
 
 // Se define la funcion submit para enviar el formulario
 const submit = () => {
-    form.post('/dashboard/contacts', {
+    form.post(route('contact.store'), {
         onFinish: () => {
             form.reset('vatar');
             avatarPreview.value = null;
-    },
-    forceFormData: true,
-});
+        },
+        forceFormData: true,
+    });
 };
 </script>
 
@@ -111,6 +112,7 @@ const submit = () => {
                 </div>
 
                 <!-- boton de envio -->
+                 
                  <div class="flex justify-center">
                     <Button type="submit" class="px-4 py-2 bg-blue-700 text-white rounded-md " >Crear Contacto</Button>
 
