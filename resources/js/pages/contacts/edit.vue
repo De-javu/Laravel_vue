@@ -24,7 +24,7 @@ type Contact = {
 const page = usePage();
 const contact = ref(page.props.contact as Contact);
 
-
+// Se define el formulario para editar el contacto
 const form = useForm<{
     name: string;
     phone: string;
@@ -61,11 +61,10 @@ function handleAvatarChange(event: Event) {
 // Se define la funcion submit para enviar el formulario
 const submit = () => {
     form.post(route('contact.update', contact.value.id), {
-        onFinish: () => {
-            form.reset('vatar');
-            avatarPreview.value = null;
-    },
-    forceFormData: true,
+        onSuccess: (e) => {
+            contact.value = e.props.contact as Contact; // Actualiza el contacto con la respuesta del servidor
+            console.log('Contacto actualizado exitosamente:', e);
+        },
 });
 };
 
@@ -79,6 +78,16 @@ const submit = () => {
         <div class="p-4 max-w-lg mx-auto">
             <h1 class="text-xl font-bold mb-4">Editar Contacto</h1>
             <form @submit.prevent="submit" class="space-y-4">
+              
+                   <Transition
+                            enter-active-class="transition ease-in-out"
+                            enter-from-class="opacity-0"
+                            leave-active-class="transition ease-in-out"
+                            leave-to-class="opacity-0"
+                        >
+                            <p v-show="form.recentlySuccessful" class="text-sm text-green-600">Actualizado Correctamnete.</p>
+                        </Transition>
+
                 <div>
                     <Label for="name" class="m-1">Nombre</Label>
                     <Input id="name" v-model="form.name" type="text" required autocomplete="off" placeholder="nombre"/>

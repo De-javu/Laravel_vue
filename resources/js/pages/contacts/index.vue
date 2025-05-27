@@ -4,6 +4,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, usePage, Link } from '@inertiajs/vue3';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { route } from 'ziggy-js';
+import { ref } from 'vue';
 
 type Contact = {
     id: number;
@@ -14,7 +15,12 @@ type Contact = {
 };
 
 const page = usePage();
-const contacts = page.props.contacts as Contact[];
+
+const contacts = ref(page.props.contacts as Contact[]);
+const onDeleSucces = () => {
+    console.log('Contact deleted successfully');
+    contacts.value = page.props.contacts as Contact[]; // Update the contacts list after deletion 
+};
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Contactos', href: '/dashboard/contacts' },
@@ -64,7 +70,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                    <Link
                                         as="button"
                                         method="delete"
-                                        :href="route('contact.destroy', contact.id)"
+                                        @success="onDeleSucces" :href="route('contact.destroy', contact.id)"
                                         class="inline-block px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded shadow transition"
                                         >
                                         Eliminar

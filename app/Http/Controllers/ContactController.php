@@ -117,16 +117,22 @@ public function store(Request $request)
     $data['user_id'] = Auth::id();
     
     $id->update($data);
-    return redirect()->route('contact.index');
-
+     return redirect()->route('contact.edit', compact('id'))->with('success', 'Contacto actualizado correctamente.');
        //return Inertia::render('contacts/update', compact('id'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Contac $id)
     {
-        return Inertia::render('contacts/destroy');
+      
+        if($id->vatar){
+            Storage::disk('public')->delete($id->vatar);
+        }
+
+        $id->delete();
+       return redirect()->route('contact.index')->with('success', 'Contacto eliminado correctamente.');
+
     }
 }
